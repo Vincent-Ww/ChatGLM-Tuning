@@ -11,7 +11,7 @@ import datasets
 import os
 
 
-tokenizer = AutoTokenizer.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True)
+tokenizer = AutoTokenizer.from_pretrained("/home/xiezizhe/wuzixun/LLM/chatglm-6b", trust_remote_code=True)
 
 
 @dataclass
@@ -75,7 +75,7 @@ def main():
 
     # init model
     model = AutoModel.from_pretrained(
-        "THUDM/chatglm-6b", load_in_8bit=True, trust_remote_code=True, device_map="auto"
+        "/home/xiezizhe/wuzixun/LLM/chatglm-6b", load_in_8bit=True, trust_remote_code=True, device_map="auto"
     )
     model.gradient_checkpointing_enable()
     model.enable_input_require_grads()

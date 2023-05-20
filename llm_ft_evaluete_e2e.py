@@ -126,7 +126,7 @@ if __name__ == "__main__":
     model = AutoModel.from_pretrained(CHATGLM_PATH, load_in_8bit=True, trust_remote_code=True, device_map='auto')
     model = model.eval()
 
-    model = PeftModel.from_pretrained(model, "./output-20230518-2w/")
+    model = PeftModel.from_pretrained(model, PEFT_PATH)
 
     with open(DEV_DATA_PATH, "r", encoding='utf-8') as f:
         dev_data = json.load(f)

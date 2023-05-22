@@ -14,9 +14,9 @@ from tqdm import tqdm
 import pandas as pd
 import traceback
 
-PEFT_PATH = "./output-20230425/adapter_model.bin"
+PEFT_PATH = "/home/xiezizhe/wuzixun/LLM/ChatGLM-Tuning/output-question-20230520/"
 CHATGLM_PATH = "/home/xiezizhe/wuzixun/LLM/chatglm-6b"
-DEV_DATA_PATH = "/home/xiezizhe/wuzixun/LLM/ChatGLM-Tuning/data/ks_h2h_combine_2w/resample_instruce_dialogue_combine_dev.json"
+DEV_DATA_PATH = "/home/xiezizhe/wuzixun/LLM/ChatGLM-Tuning/data/ks_h2h_question/resample_h2h_question_dev.json"
 
 
 def chatglm_inference(model, tokenizer, sample):
@@ -151,7 +151,7 @@ if __name__ == "__main__":
             sheet.cell(nrow, 1).value = sample['input']
             llm_answer = chatglm_inference(model, tokenizer, sample)
             sheet.cell(nrow, 3).value = llm_answer
-            sheet.cell(nrow, 2).value = sample['question']
+            sheet.cell(nrow, 2).value = sample['output']
 
             # sheet.cell(nrow, 4).value = sample['ft_name']
             multi_ft_label = sample['ft_name'].split("-")
@@ -190,9 +190,9 @@ if __name__ == "__main__":
 
             nrow += 1
             if nrow % 200 == 0 and nrow != 0:
-                workbook.save(f"人人对话LLM0验证集{nrow}(faq识别后)_com.xlsx")
-                print(f"人人对话LLM0验证集{nrow}(faq识别后)_com.xlsx: Save!")
+                workbook.save(f"人人对话LLM验证集{nrow}(faq识别后)_com.xlsx")
+                print(f"人人对话LLM验证集{nrow}(faq识别后)_com.xlsx: Save!")
         except Exception as e:
             traceback.print_exc()
             print("Exception: ", e)
-    workbook.save(f"人人对话LLM验证集0{nrow}(faq识别后)_com.xlsx")
+    workbook.save(f"人人对话LLM验证集{nrow}(faq识别后)_com.xlsx")

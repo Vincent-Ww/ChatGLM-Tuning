@@ -28,7 +28,7 @@ class Retrieval(object):
     def retrieve(self, query):
         retrived_res = self.db.as_retriever(search_type="similarity", search_kwargs={'k': 1}).get_relevant_documents(query)
         retrieved_q = retrived_res[0].page_content
-        retrieved_qid = retrived_res.metadata['qid']
+        retrieved_qid = retrived_res[0].metadata['qid']
         return {"retrieved_q": retrieved_q, "retrieved_qid": retrieved_qid}
 
 

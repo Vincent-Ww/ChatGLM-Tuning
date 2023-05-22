@@ -1,5 +1,5 @@
 python finetune.py \
-    --dataset_path /home/xiezizhe/wuzixun/LLM/ChatGLM-Tuning/data/ks_h2h_combine_2w \
+    --dataset_path /home/xiezizhe/wuzixun/LLM/ChatGLM-Tuning/data/ks_h2h_question \
     --lora_rank 8 \
     --per_device_train_batch_size 4 \
     --gradient_accumulation_steps 12 \
@@ -9,4 +9,4 @@ python finetune.py \
     --fp16 \
     --remove_unused_columns false \
     --logging_steps 10 \
-    --output_dir output-combine-20230519-2w
+    --output_dir output-question-20230520

@@ -21,8 +21,8 @@ class Retrieval(object):
         part1 = pd.read_csv("data/h2h_question/part1.csv")
         part2 = pd.read_csv("data/h2h_question/part2.csv")
         combine = pd.concat([part1, part2], axis=0)
-        h2h_q_names = combine['title'].to_list()
-        h2h_q_ids = combine['qid'].to_list()
+        h2h_q_names = combine['title'].to_list()[:5]
+        h2h_q_ids = combine['qid'].to_list()[:5]
         questions = [Document(page_content=q, metadata={"qid": qid}) for q, qid in zip(h2h_q_names, h2h_q_ids)]
         self.db = Chroma().from_documents(questions, embedding=self.embedding, persist_directory=self.persist_directory)
         if self.persist_directory:
@@ -37,5 +37,5 @@ class Retrieval(object):
         return {"retrieved_q": retrieved_q, "retrieved_qid": retrieved_qid}
 
 
-retrieval = Retrieval()
+retrieval = Retrieval(load_from_disk=False, persist_directory=".chroma/biaozhunwen")
 print(retrieval.retrieve("远洋夺宝是什么怎么玩"))

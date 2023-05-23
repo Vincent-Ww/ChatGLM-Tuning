@@ -12,8 +12,8 @@ from text_embedding import TextEmbedding
 class Retrieval(object):
     def __init__(self, load_from_disk=False, persist_directory=None):
         self.embedding = TextEmbedding()
-        self.__init_vectordb(load_from_disk)
         self.persist_directory = persist_directory
+        self.__init_vectordb(load_from_disk)
 
     def __init_vectordb(self, load_from_disk):
         if load_from_disk:

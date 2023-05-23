@@ -10,20 +10,25 @@ from text_embedding import TextEmbedding
 
 
 class Retrieval(object):
-    def __init__(self):
+    def __init__(self, load_from_disk=False, persist_directory=None):
         self.embedding = TextEmbedding()
-        self.__init_vectordb()
+        self.__init_vectordb(load_from_disk)
+        self.persist_directory = persist_directory
 
-    def __init_vectordb(self):
+    def __init_vectordb(self, load_from_disk):
+        if load_from_disk:
+            self.db = Chroma(collection_name='h2h-questions', persist_directory=self.persist_directory, embedding_function=self.embedding)
         part1 = pd.read_csv("data/h2h_question/part1.csv")
         part2 = pd.read_csv("data/h2h_question/part2.csv")
         combine = pd.concat([part1, part2], axis=0)
         h2h_q_names = combine['title'].to_list()[:2]
         h2h_q_ids = combine['qid'].to_list()[:2]
         questions = [Document(page_content=q, metadata={"qid": qid}) for q, qid in zip(h2h_q_names, h2h_q_ids)]
-        self.db = Chroma(collection_name='h2h-questions', persist_directory='./chroma/biaozhunwen').from_documents(
-            questions, embedding=self.embedding, persist_directory=".chroma/biaozhunwen")
-        self.db.persist()
+        self.db = Chroma().from_documents(questions, embedding=self.embedding, persist_directory=self.persist_directory)
+        if self.persist_directory:
+            self.db.persist()
+            print("persist vector database to disk")
+        print("init vector database: done")
 
     def retrieve(self, query):
         retrived_res = self.db.as_retriever(search_type="similarity", search_kwargs={'k': 1}).get_relevant_documents(query)

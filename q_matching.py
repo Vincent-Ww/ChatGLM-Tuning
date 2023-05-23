@@ -3,6 +3,7 @@
 # @Time : 2023/5/22 4:54 PM
 # @File : q_matching
 
+import json
 import pandas as pd
 from langchain.vectorstores import Chroma
 from langchain.docstore.document import Document
@@ -19,12 +20,10 @@ class Retrieval(object):
         if load_from_disk:
             self.db = Chroma(collection_name='h2h-questions', persist_directory=self.persist_directory, embedding_function=self.embedding)
             return 
-        part1 = pd.read_csv("data/h2h_question/part1.csv")
-        part2 = pd.read_csv("data/h2h_question/part2.csv")
-        combine = pd.concat([part1, part2], axis=0)
-        h2h_q_names = combine['title'].to_list()
-        h2h_q_ids = combine['qid'].to_list()
-        questions = [Document(page_content=q, metadata={"qid": qid}) for q, qid in zip(h2h_q_names, h2h_q_ids)]
+        with open("data/h2h_question/q2ft.json", "r") as f:
+            q2ft = json.load(f)
+        h2h_q_names = q2ft.keys()
+        questions = [Document(page_content=q) for q in h2h_q_names]
         self.db = Chroma.from_documents(questions, embedding=self.embedding, collection_name='h2h-questions', persist_directory=self.persist_directory)
         self.db.persist()
         print("persist vector database to disk")
@@ -32,9 +31,8 @@ class Retrieval(object):
     def retrieve(self, query):
         retrived_res = self.db.as_retriever(search_type="similarity", search_kwargs={'k': 1}).get_relevant_documents(query)
         retrieved_q = retrived_res[0].page_content
-        retrieved_qid = retrived_res[0].metadata['qid']
-        return {"retrieved_q": retrieved_q, "retrieved_qid": retrieved_qid}
+        return retrieved_q
 
 
-retrieval = Retrieval(load_from_disk=True, persist_directory=".chroma/biaozhunwen")
+retrieval = Retrieval(load_from_disk=False, persist_directory=".chroma/biaozhunwen")
 print(retrieval.retrieve("远洋夺宝是什么怎么玩的啊"))

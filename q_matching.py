@@ -18,16 +18,16 @@ class Retrieval(object):
     def __init_vectordb(self, load_from_disk):
         if load_from_disk:
             self.db = Chroma(collection_name='h2h-questions', persist_directory=self.persist_directory, embedding_function=self.embedding)
+            return 
         part1 = pd.read_csv("data/h2h_question/part1.csv")
         part2 = pd.read_csv("data/h2h_question/part2.csv")
         combine = pd.concat([part1, part2], axis=0)
         h2h_q_names = combine['title'].to_list()[:5]
         h2h_q_ids = combine['qid'].to_list()[:5]
         questions = [Document(page_content=q, metadata={"qid": qid}) for q, qid in zip(h2h_q_names, h2h_q_ids)]
-        self.db = Chroma().from_documents(questions, embedding=self.embedding, persist_directory=self.persist_directory)
-        if self.persist_directory:
-            self.db.persist()
-            print("persist vector database to disk")
+        self.db = Chroma.from_documents(questions, embedding=self.embedding, persist_directory=self.persist_directory)
+        self.db.persist()
+        print("persist vector database to disk")
         print("init vector database: done")
 
     def retrieve(self, query):
@@ -37,5 +37,5 @@ class Retrieval(object):
         return {"retrieved_q": retrieved_q, "retrieved_qid": retrieved_qid}
 
 
-retrieval = Retrieval(load_from_disk=False, persist_directory=".chroma/biaozhunwen")
-print(retrieval.retrieve("远洋夺宝是什么怎么玩"))
+retrieval = Retrieval(load_from_disk=True, persist_directory=".chroma/biaozhunwen")
+print(retrieval.retrieve("远洋夺宝是什么怎么玩的啊"))

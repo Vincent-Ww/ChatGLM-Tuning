@@ -57,7 +57,7 @@ def call_faq_rpc(text):
                     "authority": "kess.corp.kuaishou.com"
                 },
                 data=json.dumps({
-                    "hostInfo": "10.106.24.104:21130",
+                    "hostInfo": "10.92.143.163:22146",
                     "kessName": "grpc_FaqRecognizeRpcService",
                     "laneId": "",
                     "methodName": "kuaishou.admin.csc.FaqRecognitionRpcService/Recognize",
@@ -150,7 +150,7 @@ if __name__ == "__main__":
             llm_answer = chatglm_inference(model, tokenizer, sample)
             sheet.cell(nrow, 2).value = llm_answer
 
-            multi_ft_label = sample['output'].split("-")
+            multi_ft_label = sample['output'].split("~")
             if len(multi_ft_label) >= 1:
                 ft_1_label = multi_ft_label[0]
             if len(multi_ft_label) >= 2:

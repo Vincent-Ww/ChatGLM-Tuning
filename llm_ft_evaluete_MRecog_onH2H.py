@@ -28,37 +28,6 @@ def chatglm_inference(model, tokenizer, sample):
     return response
 
 
-def get_faq_id_name_map(file_path):
-    with open(file_path, "r") as f:
-        data = json.load(f)
-    faqs = data['data']['list']
-    faq_id2name = {}
-    faq_name2id = {}
-    for ele in faqs:
-        id = ele['id']
-        name = ele['question']
-        faq_id2name[id] = name
-        faq_name2id[name] = id
-    return faq_name2id, faq_id2name
-
-
-def get_faq_ft_map(file_path):
-    data = pd.read_excel(file_path, sheet_name='标准问')
-    faq2ft = {}
-    ft2faq = {}
-    for i in range(data.shape[0]):
-        faq = data.iloc[i]['标准问名称']
-        multi_ft = data.iloc[i]['类目信息'].split("/")
-        ft1, ft2 = "", ""
-        if len(multi_ft) >= 3:
-            ft1 = multi_ft[2]
-        if len(multi_ft) >= 4:
-            ft2 = multi_ft[3]
-        ft_1_2 = ft1 + "-" + ft2
-        faq2ft[faq] = ft_1_2
-        ft2faq[ft_1_2] = faq
-    return faq2ft, ft2faq
-
 
 if __name__ == "__main__":
 
@@ -82,8 +51,8 @@ if __name__ == "__main__":
     sheet.cell(1, 7).value = "一级FT是否正确"
     sheet.cell(1, 8).value = "二级FT是否正确"
 
-    _, faq_id2name = get_faq_id_name_map("/home/xiezizhe/wuzixun/LLM/Chatgpt-Custom/ChatGLM-LoRA/data/response.json")
-    faq2ft, _ = get_faq_ft_map("/home/xiezizhe/wuzixun/LLM/Chatgpt-Custom/ChatGLM-LoRA/data/IVR_FAQ.xlsx")
+    with open("data/h2h_question/manual_q2ft.json", "r") as f:
+        faq2ft = json.load(f)
 
     ret = Retrieval(load_from_disk=True, persist_directory=".chroma/biaozhunwen")
 

@@ -28,7 +28,6 @@ class Retrieval(object):
         self.db = Chroma.from_documents(questions, embedding=self.embedding, persist_directory=self.persist_directory)
         self.db.persist()
         print("persist vector database to disk")
-        print("init vector database: done")
 
     def retrieve(self, query):
         retrived_res = self.db.as_retriever(search_type="similarity", search_kwargs={'k': 1}).get_relevant_documents(query)

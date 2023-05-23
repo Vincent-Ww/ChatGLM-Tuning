@@ -186,9 +186,9 @@ if __name__ == "__main__":
 
             nrow += 1
             if nrow % 200 == 0 and nrow != 0:
-                workbook.save(f"人人对话LLM验证集{nrow}(faq识别后)_com.xlsx")
-                print(f"人人对话LLM验证集{nrow}(faq识别后)_com.xlsx: Save!")
+                workbook.save(f"人人对话LLM验证集{nrow}(faq识别后)_ai.xlsx")
+                print(f"人人对话LLM验证集{nrow}(faq识别后)_ai.xlsx: Save!")
         except Exception as e:
             traceback.print_exc()
             print("Exception: ", e)
-    workbook.save(f"人人对话LLM验证集{nrow}(faq识别后)_com.xlsx")
+    workbook.save(f"人人对话LLM验证集{nrow}(faq识别后)_ai.xlsx")

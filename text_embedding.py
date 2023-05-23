@@ -19,13 +19,13 @@ class TextEmbedding(Embeddings):
 
     def __init__(self):
         self.sentence_embedding = self.load_sentence_embedding()
-
+ 
     @staticmethod
     def load_sentence_embedding() -> SentenceTransformer | None:
-        return SentenceTransformer("GanymedeNil/text2vec-large-chinese")
+        return SentenceTransformer("GanymedeNil/text2vec-large-chinese").cuda()
 
     def _get_sentence_embedding(self, document):
-        return self.sentence_embedding.encode(document).tolist()
+        return self.sentence_embedding.encode(document, device="cuda:0").tolist()
 
     def embed(self, document) -> List[float]:
         """

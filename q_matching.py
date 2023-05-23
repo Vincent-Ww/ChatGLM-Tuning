@@ -24,7 +24,7 @@ class Retrieval(object):
         h2h_q_names = combine['title'].to_list()[:5]
         h2h_q_ids = combine['qid'].to_list()[:5]
         questions = [Document(page_content=q, metadata={"qid": qid}) for q, qid in zip(h2h_q_names, h2h_q_ids)]
-        self.db = Chroma().from_documents(questions, embedding=self.embedding, persist_directory=self.persist_directory)
+        self.db = Chroma().from_documents(questions, embedding=self.embedding, collection_name="h2h-questions", persist_directory=self.persist_directory)
         if self.persist_directory:
             self.db.persist()
             print("persist vector database to disk")

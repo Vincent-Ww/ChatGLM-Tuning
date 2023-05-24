@@ -20,7 +20,7 @@ class Retrieval(object):
         if load_from_disk:
             self.db = Chroma(collection_name='h2h-questions', persist_directory=self.persist_directory, embedding_function=self.embedding)
             return 
-        with open("data/h2h_question/q2ft.json", "r") as f:
+        with open("data/h2h_question/manual_q2ft.json", "r") as f:
             q2ft = json.load(f)
         h2h_q_names = q2ft.keys()
         questions = [Document(page_content=q) for q in h2h_q_names]

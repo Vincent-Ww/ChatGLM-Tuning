@@ -96,7 +96,7 @@ if __name__ == "__main__":
             sheet.cell(nrow, 11).value = sample['AI一级FT']
             sheet.cell(nrow, 12).value = sample['AI二级FT']
 
-            online_ft = sample['AI一级FT'] + "-" + sample['AI二级FT'] if sample['AI二级FT'] else sample['AI一级FT']
+            online_ft = sample['AI一级FT'] + "-" + sample['AI二级FT'] if isinstance(sample['AI二级FT'], float) else sample['AI一级FT']
             sheet.cell(nrow, 13).value = is_first_equal(ft_label, online_ft)
             sheet.cell(nrow, 14).value = is_second_equal(ft_label, online_ft)
 

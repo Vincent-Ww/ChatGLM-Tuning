@@ -34,5 +34,5 @@ class Retrieval(object):
         return retrieved_q
 
 
-#retrieval = Retrieval(load_from_disk=True, persist_directory=".chroma/biaozhunwen")
-#print(retrieval.retrieve("远洋夺宝是什么怎么玩的啊"))
+#retrieval = Retrieval(load_from_disk=False, persist_directory=".chroma/biaozhunwen")
+#print(retrieval.retrieve("入驻招商团长时已在电签平台签署合同，平台预计多久签署/需要催促"))

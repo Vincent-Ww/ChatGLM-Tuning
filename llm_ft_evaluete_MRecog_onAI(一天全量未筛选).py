@@ -94,12 +94,12 @@ if __name__ == "__main__":
             sheet.cell(nrow, 9).value = sample['是否转接']
             sheet.cell(nrow, 10).value = sample['转接后技能组']
             online_first_ft = sample['AI一级FT']
-            online_sec_ft = sample['AI二级FT'].replace("~", "-")
+            online_sec_ft = sample['AI二级FT'].replace("~", "-") if not isinstance(sample['AI二级FT'], float) else ""
             sheet.cell(nrow, 11).value = online_first_ft
             sheet.cell(nrow, 12).value = online_sec_ft
 
             sheet.cell(nrow, 13).value = ft_label.split("-")[0] == online_first_ft
-            sheet.cell(nrow, 14).value = online_sec_ft == ft_label
+            sheet.cell(nrow, 14).value = online_sec_ft == ft_label if not isinstance(sample['AI二级FT'], float) else ""
 
             nrow += 1
             if nrow % 200 == 0 and nrow != 0:

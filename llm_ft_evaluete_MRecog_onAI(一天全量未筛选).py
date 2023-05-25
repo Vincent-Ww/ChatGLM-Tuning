@@ -62,7 +62,8 @@ if __name__ == "__main__":
         try:
             sheet.cell(nrow, 1).value = sample['input']
             llm_answer = chatglm_inference(model, tokenizer, sample)
-            sheet.cell(nrow, 2).value = sample['output']
+            ft_label = sample['output'].replace("~", "-")
+            sheet.cell(nrow, 2).value = ft_label
             sheet.cell(nrow, 3).value = llm_answer
 
             retrieved_q = ret.retrieve(llm_answer)
@@ -82,8 +83,8 @@ if __name__ == "__main__":
                 return ft_label == ft_predict
 
 
-            sheet.cell(nrow, 6).value = is_first_equal(sample['output'], predict_ft)
-            sheet.cell(nrow, 7).value = is_second_equal(sample['output'], predict_ft)
+            sheet.cell(nrow, 6).value = is_first_equal(ft_label, predict_ft)
+            sheet.cell(nrow, 7).value = is_second_equal(ft_label, predict_ft)
 
             sheet.cell(nrow, 8).value = sample['mannual_reason']
             sheet.cell(nrow, 9).value = sample['是否转接']

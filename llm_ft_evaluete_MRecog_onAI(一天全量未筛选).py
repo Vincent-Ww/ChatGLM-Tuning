@@ -16,7 +16,7 @@ from q_matching import Retrieval
 
 PEFT_PATH = "/home/xiezizhe/wuzixun/LLM/ChatGLM-Tuning/output-question-20230520/"
 CHATGLM_PATH = "/home/xiezizhe/wuzixun/LLM/chatglm-6b"
-DEV_DATA_PATH = "/home/xiezizhe/wuzixun/LLM/ChatGLM-Tuning/data/ks_h2h_question/resample_h2h_question_dev.json"
+DEV_DATA_PATH = "/home/xiezizhe/wuzixun/LLM/ChatGLM-Tuning/data/ks_h2h_question_eval/ai_ft_0524_一天全量_format.json"
 
 
 def chatglm_inference(model, tokenizer, sample):
@@ -52,7 +52,7 @@ if __name__ == "__main__":
     sheet.cell(1, 9).value = "是否转接"
     sheet.cell(1, 10).value = "转接后技能组"
 
-    with open("data/mannual_q_ft_map/manual_q2ft.json", "r") as f:
+    with open("data/manual_ft_q_map/manual_q2ft.json", "r") as f:
         faq2ft = json.load(f)
 
     ret = Retrieval(load_from_disk=True, persist_directory=".chroma/biaozhunwen")
@@ -90,7 +90,7 @@ if __name__ == "__main__":
             sheet.cell(nrow, 10).value = sample['转接后技能组']
 
             nrow += 1
-            if nrow % 200 == 0 and nrow != 0:
+            if nrow % 2 == 0 and nrow != 0:
                 workbook.save(f"智能对话LLM验证{nrow}_匹配人工Q_未筛选.xlsx")
                 print(f"智能对话LLM验证{nrow}_匹配人工Q_未筛选.xlsx: Save!")
         except Exception as e:

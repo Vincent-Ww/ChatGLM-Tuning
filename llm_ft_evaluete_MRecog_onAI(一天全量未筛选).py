@@ -51,10 +51,9 @@ if __name__ == "__main__":
     sheet.cell(1, 8).value = "mannual_reason"
     sheet.cell(1, 9).value = "是否转接"
     sheet.cell(1, 10).value = "转接后技能组"
-    sheet.cell(1, 11).value = "线上预测一级FT"
-    sheet.cell(1, 12).value = "线上预测二级FT"
+    sheet.cell(1, 11).value = "线上预测FT"
+    sheet.cell(1, 12).value = "AI一级FT是否正确"
     sheet.cell(1, 13).value = "AI二级FT是否正确"
-    sheet.cell(1, 14).value = "AI二级FT是否正确"
 
     with open("data/manual_ft_q_map/manual_q2ft.json", "r") as f:
         faq2ft = json.load(f)
@@ -93,12 +92,11 @@ if __name__ == "__main__":
             sheet.cell(nrow, 8).value = sample['mannual_reason']
             sheet.cell(nrow, 9).value = sample['是否转接']
             sheet.cell(nrow, 10).value = sample['转接后技能组']
-            sheet.cell(nrow, 11).value = sample['AI一级FT']
-            sheet.cell(nrow, 12).value = sample['AI二级FT']
+            online_ft = sample['AI二级FT'].replace("~", "-")
+            sheet.cell(nrow, 11).value = online_ft
 
-            online_ft = sample['AI一级FT'] + "-" + sample['AI二级FT'] if not isinstance(sample['AI二级FT'], float) else sample['AI一级FT']
-            sheet.cell(nrow, 13).value = is_first_equal(ft_label, online_ft)
-            sheet.cell(nrow, 14).value = is_second_equal(ft_label, online_ft)
+            sheet.cell(nrow, 12).value = is_first_equal(ft_label, online_ft)
+            sheet.cell(nrow, 13).value = is_second_equal(ft_label, online_ft)
 
             nrow += 1
             if nrow % 200 == 0 and nrow != 0:

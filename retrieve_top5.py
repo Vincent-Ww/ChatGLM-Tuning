@@ -4,6 +4,7 @@
 # @File : retrieve_top5
 
 import pandas as pd
+from tqdm import tqdm
 from q_matching import Retrieval
 
 ret = Retrieval(load_from_disk=True, persist_directory=".chroma/biaozhunwen")
@@ -12,7 +13,7 @@ data = pd.read_excel("experiments/人人对话LLM验证5800_匹配人工Q.xlsx")
 
 top5_list = []
 top5_recall = []
-for i in range(data.shape[0]):
+for i in tqdm(range(data.shape[0])):
     llm_answer = data.iloc[i]['LLM结果(微调后)']
     top5 = ret.retrieve(llm_answer, topK=5)
     label = data.iloc[i]['标准问']

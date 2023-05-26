@@ -14,6 +14,7 @@ output/*
 experiments/
 aidp-dialogue-intent-v2/
 .chroma/
+.idea/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

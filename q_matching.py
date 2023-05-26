@@ -28,10 +28,13 @@ class Retrieval(object):
         self.db.persist()
         print("persist vector database to disk")
 
-    def retrieve(self, query):
-        retrived_res = self.db.as_retriever(search_type="similarity", search_kwargs={'k': 1}).get_relevant_documents(query)
-        retrieved_q = retrived_res[0].page_content
-        return retrieved_q
+    def retrieve(self, query, topK=1):
+        retrived_res = self.db.as_retriever(search_type="similarity", search_kwargs={'k': topK}).get_relevant_documents(query)
+        if topK == 1:
+            retrieved_q = retrived_res[0].page_content
+            return retrieved_q
+        else:
+            return [ele.page_content for ele in retrived_res]
 
 
 #retrieval = Retrieval(load_from_disk=False, persist_directory=".chroma/biaozhunwen")

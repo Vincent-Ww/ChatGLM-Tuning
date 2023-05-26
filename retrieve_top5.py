@@ -10,6 +10,7 @@ from q_matching import Retrieval
 ret = Retrieval(load_from_disk=True, persist_directory=".chroma/biaozhunwen")
 
 data = pd.read_excel("experiments/人人对话LLM验证5800_匹配人工Q.xlsx")
+data = data[data['LLM结果(微调后)'].notna()]
 
 top5_list = []
 top5_recall = []

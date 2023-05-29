@@ -94,9 +94,9 @@ if __name__ == "__main__":
 
             nrow += 1
             if nrow % 200 == 0 and nrow != 0:
-                workbook.save(f"诉求LLM验证{nrow}_匹配人工Q_未筛选.xlsx")
-                print(f"诉求LLM验证{nrow}_匹配人工Q_未筛选.xlsx: Save!")
+                workbook.save(f"智能LLM验证{nrow}_onAI(未转接).xlsx")
+                print(f"智能LLM验证{nrow}_onAI(未转接).xlsx: Save!")
         except Exception as e:
             traceback.print_exc()
             print("Exception: ", e)
-    workbook.save(f"诉求LLM验证{nrow}_匹配人工Q_未筛选.xlsx")
+    workbook.save(f"智能LLM验证{nrow}_onAI(未转接).xlsx")

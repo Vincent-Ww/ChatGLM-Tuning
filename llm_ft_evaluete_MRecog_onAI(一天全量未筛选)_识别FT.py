@@ -15,11 +15,16 @@ import traceback
 from q_matching import Retrieval
 
 #PEFT_PATH = "/home/xiezizhe/wuzixun/LLM/ChatGLM-Tuning/output-question-20230520/"
-PEFT_PATH = "/home/xiezizhe/wuzixun/LLM/ChatGLM-Tuning/aidp-dialogue-intent-v2"
 #CHATGLM_PATH = "/home/xiezizhe/wuzixun/LLM/chatglm-6b"
-CHATGLM_PATH = "/home/xiezizhe/hanzhou/chatglm-6b"
 #DEV_DATA_PATH = "/home/xiezizhe/wuzixun/LLM/ChatGLM-Tuning/data/ks_ai_ft_eval/ai_ft_0524_一天全量_format.json"
-DEV_DATA_PATH = "/home/xiezizhe/wuzixun/LLM/ChatGLM-Tuning/data/ks_ai_ft_eval/ai_ft_0524_一天全量_5原因_format.json"
+
+# PEFT_PATH = "/home/xiezizhe/wuzixun/LLM/ChatGLM-Tuning/aidp-dialogue-intent-v2"
+# CHATGLM_PATH = "/home/xiezizhe/hanzhou/chatglm-6b"
+# DEV_DATA_PATH = "/home/xiezizhe/wuzixun/LLM/ChatGLM-Tuning/data/ks_ai_ft_eval/ai_ft_0524_一天全量_5原因_format.json"
+
+PEFT_PATH = "/home/xiezizhe/wuzixun/LLM/ChatGLM-Tuning/ks-ai-ft-20230527"
+CHATGLM_PATH = "/home/xiezizhe/hanzhou/chatglm-6b"
+DEV_DATA_PATH = "/home/xiezizhe/wuzixun/LLM/ChatGLM-Tuning/data/ks_ai_ft/ai_ft_0516_format.json"
 
 
 def chatglm_inference(model, tokenizer, sample):

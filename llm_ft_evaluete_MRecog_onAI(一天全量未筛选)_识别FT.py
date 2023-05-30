@@ -20,7 +20,7 @@ from q_matching import Retrieval
 
 PEFT_PATH = "/home/xiezizhe/wuzixun/LLM/ChatGLM-Tuning/aidp-dialogue-intent-v2"
 CHATGLM_PATH = "/home/xiezizhe/hanzhou/chatglm-6b"
-DEV_DATA_PATH = "/home/xiezizhe/wuzixun/LLM/ChatGLM-Tuning/data/ks_ai_ft_eval/ai_ft_0524_一天全量_5原因_format.json"
+DEV_DATA_PATH = "/home/xiezizhe/wuzixun/LLM/ChatGLM-Tuning/data/ks_ai_ft2/ks_ai_ft_nomanual_format.json"
 
 
 def chatglm_inference(model, tokenizer, sample):

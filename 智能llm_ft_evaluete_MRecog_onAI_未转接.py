@@ -63,18 +63,17 @@ if __name__ == "__main__":
         try:
             sheet.cell(nrow, 1).value = sample['input']
             llm_answer = chatglm_inference(model, tokenizer, sample)
-            ft_label = sample['output'].replace("~", "-")
+            ft_label = sample['output']
             sheet.cell(nrow, 2).value = ft_label
             sheet.cell(nrow, 3).value = llm_answer
 
             def is_first_equal(ft_label, ft_predict):
-                label = ft_label.split("-")[0]
-                predict = ft_predict.split("~")[0] if "~" in ft_predict else ft_predict.split("-")[0]
+                label = ft_label.split("~")[0]
+                predict = ft_predict.split("~")[0]
                 return label == predict
 
 
             def is_second_equal(ft_label, ft_predict):
-                ft_predict = ft_predict.replace("~", "-")
                 return ft_label == ft_predict
 
 
@@ -85,11 +84,11 @@ if __name__ == "__main__":
             sheet.cell(nrow, 7).value = sample['是否转接']
             sheet.cell(nrow, 8).value = sample['转接后技能组']
             online_first_ft = sample['AI一级FT']
-            online_sec_ft = sample['AI二级FT'].replace("~", "-") if not isinstance(sample['AI二级FT'], float) else ""
+            online_sec_ft = sample['AI二级FT'] if not isinstance(sample['AI二级FT'], float) else ""
             sheet.cell(nrow, 9).value = online_first_ft
             sheet.cell(nrow, 10).value = online_sec_ft
 
-            sheet.cell(nrow, 11).value = ft_label.split("-")[0] == online_first_ft
+            sheet.cell(nrow, 11).value = ft_label.split("~")[0] == online_first_ft
             sheet.cell(nrow, 12).value = online_sec_ft == ft_label if not isinstance(sample['AI二级FT'], float) else ""
 
             nrow += 1

@@ -10,9 +10,7 @@ from peft import PeftModel
 from openpyxl import Workbook
 import json
 from tqdm import tqdm
-import pandas as pd
 import traceback
-from q_matching import Retrieval
 
 PEFT_PATH = "/home/xiezizhe/wuzixun/LLM/ChatGLM-Tuning/ks-ai-ft3-20230531"
 CHATGLM_PATH = "/home/xiezizhe/hanzhou/chatglm-6b"
@@ -95,9 +93,9 @@ if __name__ == "__main__":
 
             nrow += 1
             if nrow % 200 == 0 and nrow != 0:
-                workbook.save(f"智能0530LLM验证{nrow}_onAI(未转接).xlsx")
-                print(f"智能0530LLM验证{nrow}_onAI(未转接).xlsx: Save!")
+                workbook.save(f"智能0531LLM验证{nrow}_onAI(未转接).xlsx")
+                print(f"智能0531LLM验证{nrow}_onAI(未转接).xlsx: Save!")
         except Exception as e:
             traceback.print_exc()
             print("Exception: ", e)
-    workbook.save(f"智能0530LLM验证{nrow}_onAI(未转接).xlsx")
+    workbook.save(f"智能0531LLM验证{nrow}_onAI(未转接).xlsx")

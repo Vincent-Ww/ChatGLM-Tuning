@@ -14,9 +14,9 @@ import pandas as pd
 import traceback
 from q_matching import Retrieval
 
-PEFT_PATH = "/home/xiezizhe/wuzixun/LLM/ChatGLM-Tuning/ks-ai-ft-20230530"
+PEFT_PATH = "/home/xiezizhe/wuzixun/LLM/ChatGLM-Tuning/ks-ai-ft3-20230531"
 CHATGLM_PATH = "/home/xiezizhe/hanzhou/chatglm-6b"
-DEV_DATA_PATH = "/home/xiezizhe/wuzixun/LLM/ChatGLM-Tuning/data/ks_ai_ft2/ks_ai_nomanual_ft_format_dev.json"
+DEV_DATA_PATH = "/home/xiezizhe/wuzixun/LLM/ChatGLM-Tuning/data/ks_ai_ft3/ks_ai_nomanual_ft_format_12-25_dev.json"
 
 
 def chatglm_inference(model, tokenizer, sample):

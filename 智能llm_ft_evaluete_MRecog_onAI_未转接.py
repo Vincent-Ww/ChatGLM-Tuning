@@ -53,6 +53,7 @@ if __name__ == "__main__":
     sheet.cell(1, 10).value = "线上预测二级FT"
     sheet.cell(1, 11).value = "AI一级FT是否正确"
     sheet.cell(1, 12).value = "AI二级FT是否正确"
+    sheet.cell(1, 13).value = "route_source"
 
     with open("data/manual_ft_q_map/manual_q2ft.json", "r") as f:
         faq2ft = json.load(f)
@@ -90,6 +91,7 @@ if __name__ == "__main__":
 
             sheet.cell(nrow, 11).value = ft_label.split("~")[0] == online_first_ft
             sheet.cell(nrow, 12).value = online_sec_ft == ft_label if not isinstance(sample['AI二级FT'], float) else ""
+            sheet.cell(nrow, 13).value = sample['route_source']
 
             nrow += 1
             if nrow % 200 == 0 and nrow != 0:

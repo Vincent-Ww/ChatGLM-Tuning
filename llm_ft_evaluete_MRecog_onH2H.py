@@ -28,7 +28,6 @@ def chatglm_inference(model, tokenizer, sample):
     return response
 
 
-
 if __name__ == "__main__":
 
     tokenizer = AutoTokenizer.from_pretrained(CHATGLM_PATH, trust_remote_code=True)

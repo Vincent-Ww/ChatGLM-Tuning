@@ -13,9 +13,9 @@ from tqdm import tqdm
 import traceback
 
 PEFT_PATH = "/home/xiezizhe/wuzixun/LLM/ChatGLM-Tuning/ks-ai-ft3-20230531"
-CHATGLM_PATH = "/home/xiezizhe/hanzhou/chatglm-6b"
-DEV_DATA_PATH = "/home/xiezizhe/wuzixun/LLM/ChatGLM-Tuning/data/ks_ai_ft3/ks_ai_nomanual_ft_format_12-25_dev.json"
-
+CHATGLM_PATH = "/home/xiezizhe/wuzixun/LLM/chatglm-6b"
+#DEV_DATA_PATH = "/home/xiezizhe/wuzixun/LLM/ChatGLM-Tuning/data/ks_ai_ft3/ks_ai_nomanual_ft_format_12-25_dev.json"
+DEV_DATA_PATH = "/home/xiezizhe/wuzixun/LLM/ChatGLM-Tuning/data/tmp/ai_ft_format_filter0.json"
 
 def chatglm_inference(model, tokenizer, sample):
     context = f"Instruction: {sample['instruction']}\n"
@@ -92,10 +92,10 @@ if __name__ == "__main__":
             sheet.cell(nrow, 13).value = sample['route_source']
 
             nrow += 1
-            if nrow % 200 == 0 and nrow != 0:
-                workbook.save(f"智能0531LLM验证{nrow}_onAI(未转接).xlsx")
-                print(f"智能0531LLM验证{nrow}_onAI(未转接).xlsx: Save!")
+            if nrow % 20 == 0 and nrow != 0:
+                workbook.save(f"智能0531LLM验证{nrow}_onAI(未转接)2.xlsx")
+                print(f"智能0531LLM验证{nrow}_onAI(未转接)2.xlsx: Save!")
         except Exception as e:
             traceback.print_exc()
             print("Exception: ", e)
-    workbook.save(f"智能0531LLM验证{nrow}_onAI(未转接).xlsx")
+    workbook.save(f"智能0531LLM验证{nrow}_onAI(未转接)2.xlsx")

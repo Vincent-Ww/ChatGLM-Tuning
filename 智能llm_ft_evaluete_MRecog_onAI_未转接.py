@@ -39,19 +39,20 @@ if __name__ == "__main__":
 
     workbook = Workbook()
     sheet = workbook.active
-    sheet.cell(1, 1).value = '对话'
-    sheet.cell(1, 2).value = '首次关联工单功能树'
-    sheet.cell(1, 3).value = 'LLM结果(微调后)'
-    sheet.cell(1, 4).value = "首次关联工单功能树和预测FT一致(一级FT)"
-    sheet.cell(1, 5).value = "首次关联工单功能树和预测FT一致(二级FT)"
-    sheet.cell(1, 6).value = "mannual_reason"
-    sheet.cell(1, 7).value = "是否转接"
-    sheet.cell(1, 8).value = "转接后技能组"
-    sheet.cell(1, 9).value = "线上预测一级FT"
-    sheet.cell(1, 10).value = "线上预测二级FT"
-    sheet.cell(1, 11).value = "AI一级FT是否正确"
-    sheet.cell(1, 12).value = "AI二级FT是否正确"
-    sheet.cell(1, 13).value = "route_source"
+    sheet.cell(1, 1).value = "会话ID"
+    sheet.cell(1, 2).value = '对话'
+    sheet.cell(1, 3).value = '首次关联工单功能树'
+    sheet.cell(1, 4).value = 'LLM结果(微调后)'
+    sheet.cell(1, 5).value = "首次关联工单功能树和预测FT一致(一级FT)"
+    sheet.cell(1, 6).value = "首次关联工单功能树和预测FT一致(二级FT)"
+    sheet.cell(1, 7).value = "mannual_reason"
+    sheet.cell(1, 8).value = "是否转接"
+    sheet.cell(1, 9).value = "转接后技能组"
+    sheet.cell(1, 10).value = "线上预测一级FT"
+    sheet.cell(1, 11).value = "线上预测二级FT"
+    sheet.cell(1, 12).value = "AI一级FT是否正确"
+    sheet.cell(1, 13).value = "AI二级FT是否正确"
+    sheet.cell(1, 14).value = "route_source"
 
     with open("data/manual_ft_q_map/manual_q2ft.json", "r") as f:
         faq2ft = json.load(f)
@@ -60,11 +61,12 @@ if __name__ == "__main__":
     nrow = 2
     for sample in tqdm(dev_data):
         try:
-            sheet.cell(nrow, 1).value = sample['input']
+            sheet.cell(nrow, 1).value = sample['session_id']
+            sheet.cell(nrow, 2).value = sample['input']
             llm_answer = chatglm_inference(model, tokenizer, sample)
             ft_label = sample['output']
-            sheet.cell(nrow, 2).value = ft_label
-            sheet.cell(nrow, 3).value = llm_answer
+            sheet.cell(nrow, 3).value = ft_label
+            sheet.cell(nrow, 4).value = llm_answer
 
             def is_first_equal(ft_label, ft_predict):
                 label = ft_label.split("~")[0]
@@ -76,20 +78,20 @@ if __name__ == "__main__":
                 return ft_label == ft_predict
 
 
-            sheet.cell(nrow, 4).value = is_first_equal(ft_label, llm_answer)
-            sheet.cell(nrow, 5).value = is_second_equal(ft_label, llm_answer)
+            sheet.cell(nrow, 5).value = is_first_equal(ft_label, llm_answer)
+            sheet.cell(nrow, 6).value = is_second_equal(ft_label, llm_answer)
 
-            sheet.cell(nrow, 6).value = sample['mannual_reason']
-            sheet.cell(nrow, 7).value = sample['是否转接']
-            sheet.cell(nrow, 8).value = sample['转接后技能组']
+            sheet.cell(nrow, 7).value = sample['mannual_reason']
+            sheet.cell(nrow, 8).value = sample['是否转接']
+            sheet.cell(nrow, 9).value = sample['转接后技能组']
             online_first_ft = sample['AI一级FT']
             online_sec_ft = sample['AI二级FT'] if not isinstance(sample['AI二级FT'], float) else ""
-            sheet.cell(nrow, 9).value = online_first_ft
-            sheet.cell(nrow, 10).value = online_sec_ft
+            sheet.cell(nrow, 10).value = online_first_ft
+            sheet.cell(nrow, 11).value = online_sec_ft
 
-            sheet.cell(nrow, 11).value = ft_label.split("~")[0] == online_first_ft
-            sheet.cell(nrow, 12).value = online_sec_ft == ft_label if not isinstance(sample['AI二级FT'], float) else ""
-            sheet.cell(nrow, 13).value = sample['route_source']
+            sheet.cell(nrow, 12).value = ft_label.split("~")[0] == online_first_ft
+            sheet.cell(nrow, 13).value = online_sec_ft == ft_label if not isinstance(sample['AI二级FT'], float) else ""
+            sheet.cell(nrow, 14).value = sample['route_source']
 
             nrow += 1
             if nrow % 200 == 0 and nrow != 0:

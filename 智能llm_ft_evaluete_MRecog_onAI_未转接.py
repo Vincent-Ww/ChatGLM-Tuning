@@ -14,8 +14,9 @@ import traceback
 
 PEFT_PATH = "/home/xiezizhe/wuzixun/LLM/ChatGLM-Tuning/ks-ai-ft3-20230531"
 CHATGLM_PATH = "/home/xiezizhe/wuzixun/LLM/chatglm-6b"
-#DEV_DATA_PATH = "/home/xiezizhe/wuzixun/LLM/ChatGLM-Tuning/data/ks_ai_ft3/ks_ai_nomanual_ft_format_12-25_dev.json"
+# DEV_DATA_PATH = "/home/xiezizhe/wuzixun/LLM/ChatGLM-Tuning/data/ks_ai_ft3/ks_ai_nomanual_ft_format_12-25_dev.json"
 DEV_DATA_PATH = "/home/xiezizhe/wuzixun/LLM/ChatGLM-Tuning/data/tmp/ai_ft_format_filter0.json"
+OUTPUT_PATH = "智能0612LLM验证{nrow}_onAI(未转接)2.xlsx"
 
 def chatglm_inference(model, tokenizer, sample):
     context = f"Instruction: {sample['instruction']}\n"
@@ -57,7 +58,6 @@ if __name__ == "__main__":
     with open("data/manual_ft_q_map/manual_q2ft.json", "r") as f:
         faq2ft = json.load(f)
 
-
     nrow = 2
     for sample in tqdm(dev_data):
         try:
@@ -67,6 +67,7 @@ if __name__ == "__main__":
             ft_label = sample['output']
             sheet.cell(nrow, 3).value = ft_label
             sheet.cell(nrow, 4).value = llm_answer
+
 
             def is_first_equal(ft_label, ft_predict):
                 label = ft_label.split("~")[0]
@@ -95,9 +96,9 @@ if __name__ == "__main__":
 
             nrow += 1
             if nrow % 20 == 0 and nrow != 0:
-                workbook.save(f"智能0531LLM验证{nrow}_onAI(未转接)2.xlsx")
-                print(f"智能0531LLM验证{nrow}_onAI(未转接)2.xlsx: Save!")
+                workbook.save(f"智能0612LLM验证{nrow}_onAI(未转接)2.xlsx")
+                print(f"智能0612LLM验证{nrow}_onAI(未转接)2.xlsx: Save!")
         except Exception as e:
             traceback.print_exc()
             print("Exception: ", e)
-    workbook.save(f"智能0531LLM验证{nrow}_onAI(未转接)2.xlsx")
+    workbook.save(f"智能0612LLM验证{nrow}_onAI(未转接)2.xlsx")

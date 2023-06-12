@@ -15,8 +15,9 @@ import traceback
 PEFT_PATH = "/home/xiezizhe/wuzixun/LLM/ChatGLM-Tuning/ks-ai-ft3-20230531"
 CHATGLM_PATH = "/home/xiezizhe/wuzixun/LLM/chatglm-6b"
 # DEV_DATA_PATH = "/home/xiezizhe/wuzixun/LLM/ChatGLM-Tuning/data/ks_ai_ft3/ks_ai_nomanual_ft_format_12-25_dev.json"
-DEV_DATA_PATH = "/home/xiezizhe/wuzixun/LLM/ChatGLM-Tuning/data/tmp/ai_ft_format_filter0.json"
-OUTPUT_PATH = "智能0612LLM验证{nrow}_onAI(未转接)2.xlsx"
+# DEV_DATA_PATH = "/home/xiezizhe/wuzixun/LLM/ChatGLM-Tuning/data/tmp/ai_ft_format_filter0.json"
+DEV_DATA_PATH = "/home/xiezizhe/wuzixun/LLM/ChatGLM-Tuning/data/tmp/ks_ai_ft_26-01_format.json"
+OUTPUT_PATH = "智能0612LLM验证{}_onAI(未转接).xlsx"
 
 def chatglm_inference(model, tokenizer, sample):
     context = f"Instruction: {sample['instruction']}\n"
@@ -95,10 +96,10 @@ if __name__ == "__main__":
             sheet.cell(nrow, 14).value = sample['route_source']
 
             nrow += 1
-            if nrow % 20 == 0 and nrow != 0:
-                workbook.save(f"智能0612LLM验证{nrow}_onAI(未转接)2.xlsx")
-                print(f"智能0612LLM验证{nrow}_onAI(未转接)2.xlsx: Save!")
+            if nrow % 2 == 0 and nrow != 0:
+                workbook.save(OUTPUT_PATH.format(nrow))
+                print(OUTPUT_PATH.format(nrow))
         except Exception as e:
             traceback.print_exc()
             print("Exception: ", e)
-    workbook.save(f"智能0612LLM验证{nrow}_onAI(未转接)2.xlsx")
+    workbook.save(OUTPUT_PATH.format(nrow))

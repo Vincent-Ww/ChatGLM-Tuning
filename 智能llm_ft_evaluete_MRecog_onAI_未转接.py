@@ -3,8 +3,6 @@
 # @Time : 2023/5/19 11:26 AM
 # @File : llm_ft_evaluete_e2e.py
 
-from time import time
-import torch
 from transformers import AutoTokenizer, AutoModel
 from peft import PeftModel
 from openpyxl import Workbook
@@ -12,12 +10,12 @@ import json
 from tqdm import tqdm
 import traceback
 
-PEFT_PATH = "/home/xiezizhe/wuzixun/LLM/ChatGLM-Tuning/ks-ai-ft3-20230531"
+PEFT_PATH = "/home/xiezizhe/wuzixun/LLM/ChatGLM-Tuning/ks-ai-ft5-20230626"
 CHATGLM_PATH = "/home/xiezizhe/wuzixun/LLM/chatglm-6b"
 # DEV_DATA_PATH = "/home/xiezizhe/wuzixun/LLM/ChatGLM-Tuning/data/ks_ai_ft3/ks_ai_nomanual_ft_format_12-25_dev.json"
 # DEV_DATA_PATH = "/home/xiezizhe/wuzixun/LLM/ChatGLM-Tuning/data/tmp/ai_ft_format_filter0.json"
-DEV_DATA_PATH = "/home/xiezizhe/wuzixun/LLM/ChatGLM-Tuning/data/tmp/ks_ai_ft_26-01_format.json"
-OUTPUT_PATH = "智能0612LLM验证{}_onAI(未转接).xlsx"
+DEV_DATA_PATH = "/home/xiezizhe/wuzixun/LLM/ChatGLM-Tuning/data/ka_ai_ft_anno/ks_ai_ft_0519-0601_format.json"
+OUTPUT_PATH = "智能0626LLM验证_onAI{}.xlsx"
 
 def chatglm_inference(model, tokenizer, sample):
     context = f"Instruction: {sample['instruction']}\n"
@@ -55,6 +53,8 @@ if __name__ == "__main__":
     sheet.cell(1, 12).value = "AI一级FT是否正确"
     sheet.cell(1, 13).value = "AI二级FT是否正确"
     sheet.cell(1, 14).value = "route_source"
+    sheet.cell(1, 15).value = "是否标注"
+    sheet.cell(1, 16).value = "标注前结果"
 
     with open("data/manual_ft_q_map/manual_q2ft.json", "r") as f:
         faq2ft = json.load(f)
@@ -94,6 +94,8 @@ if __name__ == "__main__":
             sheet.cell(nrow, 12).value = ft_label.split("~")[0] == online_first_ft
             sheet.cell(nrow, 13).value = online_sec_ft == ft_label if not isinstance(sample['AI二级FT'], float) else ""
             sheet.cell(nrow, 14).value = sample['route_source']
+            sheet.cell(nrow, 15).value = sample['是否标注']
+            sheet.cell(nrow, 16).value = sample['标注前结果']
 
             nrow += 1
             if nrow % 2 == 0 and nrow != 0:

@@ -1,5 +1,5 @@
 python finetune.py \
-    --dataset_path /home/xiezizhe/wuzixun/LLM/ChatGLM-Tuning/data/ks_ai_ft2 \
+    --dataset_path /home/xiezizhe/wuzixun/LLM/ChatGLM-Tuning/data/ks_ai_ft4 \
     --lora_rank 8 \
     --per_device_train_batch_size 4 \
     --gradient_accumulation_steps 12 \
@@ -9,4 +9,4 @@ python finetune.py \
     --fp16 \
     --remove_unused_columns false \
     --logging_steps 10 \
-    --output_dir ks-ai-ft-20230530
+    --output_dir ks-ai-ft3-20230531

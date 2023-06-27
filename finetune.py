@@ -10,8 +10,8 @@ from dataclasses import dataclass, field
 import datasets
 import os
 
-
-tokenizer = AutoTokenizer.from_pretrained("/home/xiezizhe/wuzixun/LLM/chatglm-6b", trust_remote_code=True)
+chatglm_path = "/home/xiezizhe/wuzixun/LLM/chatglm-6b"
+tokenizer = AutoTokenizer.from_pretrained(chatglm_path, trust_remote_code=True)
 
 
 @dataclass
@@ -75,7 +75,7 @@ def main():
 
     # init model
     model = AutoModel.from_pretrained(
-        "/home/xiezizhe/wuzixun/LLM/chatglm-6b", load_in_8bit=True, trust_remote_code=True, device_map="auto"
+        chatglm_path, load_in_8bit=True, trust_remote_code=True, device_map="auto"
     )
     model.gradient_checkpointing_enable()
     model.enable_input_require_grads()

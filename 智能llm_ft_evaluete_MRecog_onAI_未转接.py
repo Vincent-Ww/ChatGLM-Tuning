@@ -14,7 +14,7 @@ PEFT_PATH = "/home/xiezizhe/wuzixun/LLM/ChatGLM-Tuning/ks-ai-ft5-20230626"
 CHATGLM_PATH = "/home/xiezizhe/wuzixun/LLM/chatglm-6b"
 # DEV_DATA_PATH = "/home/xiezizhe/wuzixun/LLM/ChatGLM-Tuning/data/ks_ai_ft3/ks_ai_nomanual_ft_format_12-25_dev.json"
 # DEV_DATA_PATH = "/home/xiezizhe/wuzixun/LLM/ChatGLM-Tuning/data/tmp/ai_ft_format_filter0.json"
-DEV_DATA_PATH = "/home/xiezizhe/wuzixun/LLM/ChatGLM-Tuning/data/ka_ai_ft_anno/ks_ai_ft_0519-0601_format.json"
+DEV_DATA_PATH = "/home/xiezizhe/wuzixun/LLM/ChatGLM-Tuning/data/ks_ai_ft_anno/ks_ai_ft_0519-0601_anno_dev.json"
 OUTPUT_PATH = "智能0626LLM验证_onAI{}.xlsx"
 
 def chatglm_inference(model, tokenizer, sample):

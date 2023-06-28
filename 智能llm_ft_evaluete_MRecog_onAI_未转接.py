@@ -15,7 +15,7 @@ CHATGLM_PATH = "/home/xiezizhe/wuzixun/LLM/chatglm-6b"
 # DEV_DATA_PATH = "/home/xiezizhe/wuzixun/LLM/ChatGLM-Tuning/data/ks_ai_ft3/ks_ai_nomanual_ft_format_12-25_dev.json"
 # DEV_DATA_PATH = "/home/xiezizhe/wuzixun/LLM/ChatGLM-Tuning/data/tmp/ai_ft_format_filter0.json"
 DEV_DATA_PATH = "/home/xiezizhe/wuzixun/LLM/ChatGLM-Tuning/data/ks_ai_ft_anno/ks_ai_ft_0519-0601_anno_dev.json"
-OUTPUT_PATH = "智能0626LLM验证_onAI{}.xlsx"
+OUTPUT_PATH = "智能0628LLM验证_onAI{}.xlsx"
 
 
 def chatglm_inference(model, tokenizer, sample):
@@ -42,7 +42,7 @@ if __name__ == "__main__":
     sheet = workbook.active
     sheet.cell(1, 1).value = "会话ID"
     sheet.cell(1, 2).value = '对话'
-    sheet.cell(1, 3).value = '首次关联工单功能树'
+    sheet.cell(1, 3).value = 'Label'
     sheet.cell(1, 4).value = 'LLM结果(微调后)'
     sheet.cell(1, 5).value = "首次关联工单功能树和预测FT一致(一级FT)"
     sheet.cell(1, 6).value = "首次关联工单功能树和预测FT一致(二级FT)"
@@ -72,12 +72,16 @@ if __name__ == "__main__":
 
 
             def is_first_equal(ft_label, ft_predict):
+                if ft_label == "无":
+                    return ""
                 label = ft_label.split("~")[0]
                 predict = ft_predict.split("~")[0]
                 return label == predict
 
 
             def is_second_equal(ft_label, ft_predict):
+                if ft_label == "无":
+                    return ""
                 if "~" in ft_predict:
                     return ft_label == ft_predict
                 else:
@@ -95,16 +99,18 @@ if __name__ == "__main__":
             sheet.cell(nrow, 10).value = online_first_ft
             sheet.cell(nrow, 11).value = online_sec_ft
 
-            sheet.cell(nrow, 12).value = ft_label.split("~")[0] == online_first_ft
-            sheet.cell(nrow, 13).value = online_sec_ft == ft_label if not isinstance(sample['AI二级FT'], float) else ""
+            sheet.cell(nrow, 12).value = ft_label.split("~")[0] == online_first_ft if ft_label != "无" else ""
+            sheet.cell(nrow, 13).value = online_sec_ft == ft_label if not isinstance(sample['AI二级FT'], float) and ft_label != "无" else ""
             sheet.cell(nrow, 14).value = sample['route_source']
             sheet.cell(nrow, 15).value = sample['是否标注']
             sheet.cell(nrow, 16).value = sample['标注前结果']
 
             nrow += 1
-            if nrow % 2 == 0 and nrow != 0:
+            if nrow % 200 == 0 and nrow != 0:
                 workbook.save(OUTPUT_PATH.format(nrow))
                 print(OUTPUT_PATH.format(nrow))
+
+
         except Exception as e:
             traceback.print_exc()
             print("Exception: ", e)

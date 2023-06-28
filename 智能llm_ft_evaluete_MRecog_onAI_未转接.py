@@ -24,7 +24,7 @@ def chatglm_inference(model, tokenizer, sample):
     context += f"Input: {sample['input']}\n"
     context += "Answer: "
 
-    response, _ = model.chat(tokenizer, context, history=[])
+    response, _ = model.chat(tokenizer, context, history=[], do_sample=False)
     return response
 
 

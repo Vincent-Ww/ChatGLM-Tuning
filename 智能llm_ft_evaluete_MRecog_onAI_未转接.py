@@ -9,6 +9,7 @@ from openpyxl import Workbook
 import json
 from tqdm import tqdm
 import traceback
+import pandas as pd
 
 PEFT_PATH = "/home/xiezizhe/wuzixun/LLM/ChatGLM-Tuning/ks-ai-ft5-20230626"
 CHATGLM_PATH = "/home/xiezizhe/wuzixun/LLM/chatglm-6b"
@@ -25,6 +26,30 @@ def chatglm_inference(model, tokenizer, sample):
 
     response, _ = model.chat(tokenizer, context, history=[])
     return response
+
+
+def analysis(file_path):
+    data = pd.read_excel(file_path)
+    # LLM 一级FT准确率
+    data1 = data[(data["Label和LLM FT一致(一级FT)"] != "") & data["Label和LLM FT一致(一级FT)"].notna()]
+    data1_1 = data1[data1["Label和LLM FT一致(一级FT)"] == True]
+    print("LLM 一级FT准确率： {} / {} = {}%".format(data1_1.shape[0], data1.shape[0],
+                                                   data1_1.shape[0] / data1.shape[0] * 100))
+    # LLM 二级FT准确率
+    data2 = data[(data["Label和LLM FT一致(二级FT)"] != "") & data["Label和LLM FT一致(二级FT)"].notna()]
+    data2_1 = data2[data2["Label和LLM FT一致(二级FT)"] == True]
+    print("LLM 二级FT准确率： {} / {} = {}%".format(data2_1.shape[0], data2.shape[0],
+                                                   data2_1.shape[0] / data2.shape[0] * 100))
+    # 线上 一级FT准确率
+    data3 = data[(data["AI一级FT是否正确"] != "") & data["AI一级FT是否正确"].notna()]
+    data3_1 = data3[data3["AI一级FT是否正确"] == True]
+    print("线上 一级FT准确率： {} / {} = {}%".format(data3_1.shape[0], data3.shape[0],
+                                                    data3_1.shape[0] / data3.shape[0] * 100))
+    # 线上 二级FT准确率
+    data4 = data[(data["AI二级FT是否正确"] != "") & data["AI二级FT是否正确"].notna()]
+    data4_1 = data4[data4["AI二级FT是否正确"] == True]
+    print("线上 二级FT准确率： {} / {} = {}%".format(data4_1.shape[0], data4.shape[0],
+                                                    data4_1.shape[0] / data4.shape[0] * 100))
 
 
 if __name__ == "__main__":
@@ -44,8 +69,8 @@ if __name__ == "__main__":
     sheet.cell(1, 2).value = '对话'
     sheet.cell(1, 3).value = 'Label'
     sheet.cell(1, 4).value = 'LLM结果(微调后)'
-    sheet.cell(1, 5).value = "首次关联工单功能树和预测FT一致(一级FT)"
-    sheet.cell(1, 6).value = "首次关联工单功能树和预测FT一致(二级FT)"
+    sheet.cell(1, 5).value = "Label和LLM FT一致(一级FT)"
+    sheet.cell(1, 6).value = "Label和LLM FT一致(二级FT)"
     sheet.cell(1, 7).value = "mannual_reason"
     sheet.cell(1, 8).value = "是否转接"
     sheet.cell(1, 9).value = "转接后技能组"
@@ -100,7 +125,8 @@ if __name__ == "__main__":
             sheet.cell(nrow, 11).value = online_sec_ft
 
             sheet.cell(nrow, 12).value = ft_label.split("~")[0] == online_first_ft if ft_label != "无" else ""
-            sheet.cell(nrow, 13).value = online_sec_ft == ft_label if not isinstance(sample['AI二级FT'], float) and ft_label != "无" else ""
+            sheet.cell(nrow, 13).value = online_sec_ft == ft_label if not isinstance(sample['AI二级FT'],
+                                                                                     float) and ft_label != "无" else ""
             sheet.cell(nrow, 14).value = sample['route_source']
             sheet.cell(nrow, 15).value = sample['是否标注']
             sheet.cell(nrow, 16).value = sample['标注前结果']
@@ -108,7 +134,9 @@ if __name__ == "__main__":
             nrow += 1
             if nrow % 200 == 0 and nrow != 0:
                 workbook.save(OUTPUT_PATH.format(nrow))
+                print("\n\n======================================")
                 print(OUTPUT_PATH.format(nrow))
+                analysis(OUTPUT_PATH.format(nrow))
 
 
         except Exception as e:

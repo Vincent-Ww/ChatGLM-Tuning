@@ -51,6 +51,12 @@ def analysis(file_path):
     print("线上 二级FT准确率： {} / {} = {}%".format(data4_1.shape[0], data4.shape[0],
                                                     data4_1.shape[0] / data4.shape[0] * 100))
 
+    # LLM 识别率
+    print("LLM 二级FT识别率：{} / {} = {}%".format(data2.shape[0], data.shape[0], data2.shape[0]/data.shape[0]*100))
+
+    # 线上 识别率
+    print("线上 二级FT识别率：{} / {} = {}%".format(data4.shape[0], data.shape[0], data4.shape[0] / data.shape[0] * 100))
+
 
 if __name__ == "__main__":
 

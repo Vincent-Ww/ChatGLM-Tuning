@@ -17,6 +17,7 @@ CHATGLM_PATH = "/home/xiezizhe/wuzixun/LLM/chatglm-6b"
 DEV_DATA_PATH = "/home/xiezizhe/wuzixun/LLM/ChatGLM-Tuning/data/ka_ai_ft_anno/ks_ai_ft_0519-0601_format.json"
 OUTPUT_PATH = "智能0626LLM验证_onAI{}.xlsx"
 
+
 def chatglm_inference(model, tokenizer, sample):
     context = f"Instruction: {sample['instruction']}\n"
     context += f"Input: {sample['input']}\n"
@@ -77,7 +78,10 @@ if __name__ == "__main__":
 
 
             def is_second_equal(ft_label, ft_predict):
-                return ft_label == ft_predict
+                if "~" in ft_predict:
+                    return ft_label == ft_predict
+                else:
+                    return ""
 
 
             sheet.cell(nrow, 5).value = is_first_equal(ft_label, llm_answer)

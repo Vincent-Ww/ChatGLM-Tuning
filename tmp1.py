@@ -70,7 +70,7 @@ model = model.eval()
 model = PeftModel.from_pretrained(model, PEFT_PATH)
 if __name__ == "__main__":
     file_path = "eval_1000_beforeAnno.xlsx"
-    eval_data = pd.read_excel(file_path, sheet_name="Sheet1").iloc[:5]
+    eval_data = pd.read_excel(file_path, sheet_name="Sheet1")
     chatglm_result_list = []
     llm_1ft_list = []
     llm_2ft_list = []

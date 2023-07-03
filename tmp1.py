@@ -81,7 +81,7 @@ if __name__ == "__main__":
         chatglm_result = chatglm_inference(model, tokenizer, sample)
         chatglm_result_list.append(chatglm_result)
         llm_1ft_list.append(chatglm_result.split("~")[0])
-        llm_2ft_list.append(chatglm_result.split("~") if "~" in chatglm_result else "无")
+        llm_2ft_list.append(chatglm_result if "~" in chatglm_result else "无")
 
     eval_data['LLM结果'] = chatglm_result_list
     eval_data['LLM一级FT'] = llm_1ft_list

@@ -62,17 +62,20 @@ def chatglm_inference(model, tokenizer, sample):
 #
 #     workbook.close()
 
-PEFT_PATH = "/home/xiezizhe/wuzixun/LLM/ChatGLM-Tuning/output-question-20230520/"
+PEFT_PATH = "/home/xiezizhe/wuzixun/LLM/ChatGLM-Tuning/ks-ai-ft5-20230626"
 CHATGLM_PATH = "/home/xiezizhe/wuzixun/LLM/chatglm-6b"
 tokenizer = AutoTokenizer.from_pretrained(CHATGLM_PATH, trust_remote_code=True)
 model = AutoModel.from_pretrained(CHATGLM_PATH, load_in_8bit=True, trust_remote_code=True, device_map='auto')
+model = model.eval()
+model = PeftModel.from_pretrained(model, PEFT_PATH)
 if __name__ == "__main__":
     file_path = "eval_1000_beforeAnno.xlsx"
     eval_data = pd.read_excel(file_path, sheet_name="Sheet1")
     chatglm_result_list = []
     llm_1ft_list = []
     llm_2ft_list = []
-    for i in range(eval_data.shape[0]):
+    # for i in range(eval_data.shape[0]):
+    for i in tqdm(range(5)):
         row = eval_data.iloc[i]
         sample = {"instruction": "下面是用户和客服的一段对话，请你根据下面这段对话总结出所属功能树。\n功能树是区分用户诉求类别的多层树状知识结构，最多只有两个层级，不同层级之间用\"~\"相连。(例如 电商~买家, 平台~账号)。",
                   "input": row['dialogue']}

@@ -76,7 +76,7 @@ if __name__ == "__main__":
     llm_2ft_list = []
     for i in tqdm(range(eval_data.shape[0])):
         row = eval_data.iloc[i]
-        sample = {"instruction": "下面是用户和客服的一段对话，请你根据下面这段对话总结出所属功能树。\n功能树是区分用户诉求类别的多层树状知识结构，最多只有两个层级，不同层级之间用\"~\"相连。(例如 电商~买家, 平台~账号)。",
+        sample = {"instruction": "下面是用户和客服的一段对话，请你根据下面这段对话总结出所属功能树。\n功能树是区分用户诉求类别的多层树状知识结构，最多只有两个层级，不同层级之间用\"~\"相连。如果无法总结出第二个层级，则只输出第一个层级。",
                   "input": row['dialogue']}
         chatglm_result = chatglm_inference(model, tokenizer, sample)
         chatglm_result_list.append(chatglm_result)

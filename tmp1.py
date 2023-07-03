@@ -70,12 +70,21 @@ if __name__ == "__main__":
     file_path = "eval_1000_beforeAnno.xlsx"
     eval_data = pd.read_excel(file_path, sheet_name="Sheet1")
     chatglm_result_list = []
+    llm_1ft_list = []
+    llm_2ft_list = []
     for i in range(eval_data.shape[0]):
         row = eval_data.iloc[i]
         sample = {"instruction": "下面是用户和客服的一段对话，请你根据下面这段对话总结出所属功能树。\n功能树是区分用户诉求类别的多层树状知识结构，最多只有两个层级，不同层级之间用\"~\"相连。(例如 电商~买家, 平台~账号)。",
                   "input": row['dialogue']}
-        chatglm_result_list.append(chatglm_inference(model, tokenizer, sample))
+        chatglm_result = chatglm_inference(model, tokenizer, sample)
+        chatglm_result_list.append(chatglm_result)
+        llm_1ft_list.append(chatglm_result.split("~")[0])
+        llm_2ft_list.append(chatglm_result.split("~")[1] if "~" in chatglm_result else "无")
+
     eval_data['LLM结果'] = chatglm_result_list
+    eval_data['LLM一级FT'] = llm_1ft_list
+    eval_data['LLM二级FT'] = llm_2ft_list
+    eval_data.to_excel("sft_compare.xlsx")
 
 
 

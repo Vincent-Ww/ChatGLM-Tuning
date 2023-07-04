@@ -1,0 +1,24 @@
+ks-ai-ft-20230530  
+数据优化
+用了0530处理的数据进行训练。 
+size: 38665
+date_range: 20230512-20230518
+过滤转人工意图query
+过滤querytype = ['MANUAL_TIPS', 'HANGUP', 'MANUAL', 'WELCOME']的query
+过滤['HISTORY_TICKET', 'TICKET', 'REPEAT_INCOMING_MANUAL']转意图策略
+舍弃转接数据
+若未转接且智能与工单不一致，舍弃 
+澄清列表变成 ‘[澄清列表]’    订单选择器变成 [订单编号]
+
+
+ks_ai_ft5-20230601
+加入了标注数据
+
+
+ks-ai-ft5-0628
+    第一批标注数据
+    不过prompt有问题，标注数据的prompt和非标注数据的prompt不一致
+
+
+ks-ai-ft-0703
+    修正了0628prompt的问题，统一了prompt

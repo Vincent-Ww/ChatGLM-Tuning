@@ -22,47 +22,7 @@ def chatglm_inference(model, tokenizer, sample):
     return response
 
 
-# def to_annotation_format(json_data, output_path):
-#     workbook = xlsxwriter.Workbook(output_path)
-#     worksheet = workbook.add_worksheet()
-#     bold_red = workbook.add_format({'bold': True, 'color': 'red'})
-#     wrap = workbook.add_format({'text_wrap': True})
-#     sheet = workbook.add_worksheet()
-#     worksheet.write(0, 0, "sessionid")
-#     worksheet.write(0, 1, "dialogue")
-#     worksheet.write(0, 2, "AI一级FT")
-#     worksheet.write(0, 3, "AI二级FT")
-#     worksheet.write(0, 4, "是否转接")
-#     worksheet.write(0, 5, "首次关联工单功能树")
-#     # worksheet.write(0, 6, "session FT(待标注)")
-#     worksheet.write(0, 6, "SessionFT-chatglm")
-#     nrow = 1
-#     for ele in json_data:
-#         worksheet.write(nrow, 0, ele['session_id'])
-#
-#         dialogue = ele['input']
-#         splits = dialogue.split("\n")
-#         dialogue_input = []
-#         for sentence in splits:
-#             if len(sentence) == 0:
-#                 continue
-#             if sentence.startswith("用户:"):
-#                 dialogue_input.append(bold_red)
-#             dialogue_input.append(sentence + "\n")
-#         worksheet.write_rich_string(nrow, 1, *dialogue_input, wrap)
-#
-#         ft1 = ele['AI一级FT'] if isinstance(ele['AI一级FT'], str) else ""
-#         worksheet.write(nrow, 2, ft1)
-#         ft2 = ele['AI二级FT'] if isinstance(ele['AI二级FT'], str) else ""
-#         worksheet.write(nrow, 3, ft2)
-#         worksheet.write(nrow, 4, ele['是否转接'])
-#         worksheet.write(nrow, 5, ele['output'])
-#         worksheet.write(nrow, 6, chatglm_inference(model, tokenizer, ele))
-#         nrow += 1
-#
-#     workbook.close()
-
-PEFT_PATH = "/home/xiezizhe/wuzixun/LLM/ChatGLM-Tuning/ks-ai-ft5-20230626"
+PEFT_PATH = "/home/xiezizhe/wuzixun/LLM/ChatGLM-Tuning/ks-ai-ft-20230703"
 CHATGLM_PATH = "/home/xiezizhe/wuzixun/LLM/chatglm-6b"
 tokenizer = AutoTokenizer.from_pretrained(CHATGLM_PATH, trust_remote_code=True)
 model = AutoModel.from_pretrained(CHATGLM_PATH, load_in_8bit=True, trust_remote_code=True, device_map='auto')
@@ -76,7 +36,7 @@ if __name__ == "__main__":
     llm_2ft_list = []
     for i in tqdm(range(eval_data.shape[0])):
         row = eval_data.iloc[i]
-        sample = {"instruction": "下面是用户和客服的一段对话，请你根据下面这段对话总结出所属功能树。\n功能树是区分用户诉求类别的多层树状知识结构，最多只有两个层级，不同层级之间用\"~\"相连。如果无法总结出第二个层级，则只输出第一个层级。",
+        sample = {"instruction": "下面是用户和客服的一段对话，请你根据下面这段对话总结出所属功能树。\n功能树是区分用户诉求类别的多层树状知识结构，最多只有两个层级，不同层级之间用\"~\"相连。如果无法总结出第二个层级，则只输出第一个层级。若用户无明显诉求，则输出[无]",
                   "input": row['dialogue']}
         chatglm_result = chatglm_inference(model, tokenizer, sample)
         chatglm_result_list.append(chatglm_result)

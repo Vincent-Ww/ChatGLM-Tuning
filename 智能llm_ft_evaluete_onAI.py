@@ -52,9 +52,11 @@ def analysis(file_path):
                                                     data4_1.shape[0] / data4.shape[0] * 100))
 
     # LLM 识别率
-    print("LLM 二级FT识别率：{} / {} = {}%".format(data2.shape[0], data.shape[0], data2.shape[0]/data.shape[0]*100))
+    print("LLM 一级FT识别率：{} / {} = {}%".format(data1.shape[0], data.shape[0], data1.shape[0] / data.shape[0] * 100))
+    print("LLM 二级FT识别率：{} / {} = {}%".format(data2.shape[0], data.shape[0], data2.shape[0] / data.shape[0] * 100))
 
     # 线上 识别率
+    print("线上 一级FT识别率：{} / {} = {}%".format(data3.shape[0], data.shape[0], data3.shape[0] / data.shape[0] * 100))
     print("线上 二级FT识别率：{} / {} = {}%".format(data4.shape[0], data.shape[0], data4.shape[0] / data.shape[0] * 100))
 
 

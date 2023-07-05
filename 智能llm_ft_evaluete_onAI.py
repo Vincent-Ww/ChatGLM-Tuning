@@ -31,22 +31,22 @@ def chatglm_inference(model, tokenizer, sample):
 def analysis(file_path):
     data = pd.read_excel(file_path)
     # LLM 一级FT准确率
-    data1 = data[(data["Label和LLM FT一致(一级FT)"] != "") & data["Label和LLM FT一致(一级FT)"].notna()]
+    data1 = data[data["LLM结果(微调后)"] != "无"]
     data1_1 = data1[data1["Label和LLM FT一致(一级FT)"] == True]
     print("LLM 一级FT准确率： {} / {} = {}%".format(data1_1.shape[0], data1.shape[0],
                                                    data1_1.shape[0] / data1.shape[0] * 100))
     # LLM 二级FT准确率
-    data2 = data[(data["Label和LLM FT一致(二级FT)"] != "") & data["Label和LLM FT一致(二级FT)"].notna()]
+    data2 = data[(data["LLM结果(微调后)"] != "无") & (data["LLM结果(微调后)"].str.contains("~"))]
     data2_1 = data2[data2["Label和LLM FT一致(二级FT)"] == True]
     print("LLM 二级FT准确率： {} / {} = {}%".format(data2_1.shape[0], data2.shape[0],
                                                    data2_1.shape[0] / data2.shape[0] * 100))
     # 线上 一级FT准确率
-    data3 = data[(data["AI一级FT是否正确"] != "") & data["AI一级FT是否正确"].notna()]
+    data3 = data[(data["线上预测一级FT"] != "") & data["线上预测一级FT"].notna()]
     data3_1 = data3[data3["AI一级FT是否正确"] == True]
     print("线上 一级FT准确率： {} / {} = {}%".format(data3_1.shape[0], data3.shape[0],
                                                     data3_1.shape[0] / data3.shape[0] * 100))
     # 线上 二级FT准确率
-    data4 = data[(data["AI二级FT是否正确"] != "") & data["AI二级FT是否正确"].notna()]
+    data4 = data[(data["线上预测二级FT"] != "") & data["线上预测二级FT"].notna()]
     data4_1 = data4[data4["AI二级FT是否正确"] == True]
     print("线上 二级FT准确率： {} / {} = {}%".format(data4_1.shape[0], data4.shape[0],
                                                     data4_1.shape[0] / data4.shape[0] * 100))

@@ -9,4 +9,4 @@ python finetune.py \
     --fp16 \
     --remove_unused_columns false \
     --logging_steps 10 \
-    --output_dir ks-ai-ft-20230703
+    --output_dir ks-ai-ft-20230707

@@ -22,3 +22,6 @@ ks-ai-ft5-0628
 
 ks-ai-ft-0703
     修正了0628prompt的问题，统一了prompt
+
+ks-ai-ft-0707
+    和上一版一样，不过finetune的时候使用半精度模型，而非int8模型

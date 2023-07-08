@@ -11,12 +11,13 @@ from tqdm import tqdm
 import traceback
 import pandas as pd
 
-PEFT_PATH = "/home/xiezizhe/wuzixun/LLM/ChatGLM-Tuning/ks-ai-ft5-20230626"
+PEFT_PATH = "/home/xiezizhe/wuzixun/LLM/ChatGLM-Tuning/ks-ai-ft-20230703"
 CHATGLM_PATH = "/home/xiezizhe/wuzixun/LLM/chatglm-6b"
 # DEV_DATA_PATH = "/home/xiezizhe/wuzixun/LLM/ChatGLM-Tuning/data/ks_ai_ft3/ks_ai_nomanual_ft_format_12-25_dev.json"
 # DEV_DATA_PATH = "/home/xiezizhe/wuzixun/LLM/ChatGLM-Tuning/data/tmp/ai_ft_format_filter0.json"
 DEV_DATA_PATH = "/home/xiezizhe/wuzixun/LLM/ChatGLM-Tuning/data/ks_ai_ft_anno/ks_ai_ft_0519-0601_anno_dev.json"
-OUTPUT_PATH = "智能0628LLM验证_onAI{}.xlsx"
+# DEV_DATA_PATH = "/home/xiezizhe/wuzixun/LLM/ChatGLM-Tuning/data/ks_ai_ft_anno/eval_complete.json"
+OUTPUT_PATH = "智能0706(3)LLM验证_onAI{}.xlsx"
 
 
 def chatglm_inference(model, tokenizer, sample):
@@ -63,8 +64,11 @@ def analysis(file_path):
 if __name__ == "__main__":
 
     tokenizer = AutoTokenizer.from_pretrained(CHATGLM_PATH, trust_remote_code=True)
-    model = AutoModel.from_pretrained(CHATGLM_PATH, load_in_8bit=True, trust_remote_code=True, device_map='auto')
+    # model = AutoModel.from_pretrained(CHATGLM_PATH, load_in_8bit=True, trust_remote_code=True, device_map='auto')
+    model = AutoModel.from_pretrained(CHATGLM_PATH, trust_remote_code=True, device_map='auto').half()
     model = model.eval()
+
+    print("lora model: ", PEFT_PATH)    
 
     model = PeftModel.from_pretrained(model, PEFT_PATH)
 

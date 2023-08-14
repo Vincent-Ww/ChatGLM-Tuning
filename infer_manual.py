@@ -11,7 +11,6 @@ from peft import PeftModel
 
 
 def chatglm_inference(model, tokenizer, prompt):
-
     response, _ = model.chat(tokenizer, prompt, history=[], do_sample=False)
     return response
 
@@ -31,14 +30,20 @@ if __name__ == "__main__":
     model = PeftModel.from_pretrained(model, peft_path)
 
     while True:
-        prompt = sys.stdin.readline().strip('\n')
-        if len(prompt) == 0:
-            break
+        print("================")
+        # prompt = sys.stdin.readline().strip('\n')
+
+        prompt = []
+        while True:
+            aLine = sys.stdin.readline()
+            if aLine == "endendend":
+                break
+            prompt.append(aLine)
+        prompt = "\n".join(prompt)
 
         start = time.time()
         answer = chatglm_inference(model, tokenizer, prompt)
         end = time.time()
 
-        print("================")
         print(answer)
         print(end - start)

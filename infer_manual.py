@@ -19,10 +19,10 @@ def chatglm_inference(model, tokenizer, prompt):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--chatglm_path", type=str, default="/home/xiezizhe/wuzixun/LLM/chatglm-6b")
-    parser.add_argument("--peft_path", type=str, default="resource/ks-ai-ft-20230808")
+    parser.add_argument("--peft_path", type=str, default="ks-ai-ft-20230807")
     FLAGS, _ = parser.parse_known_args()
     chatglm_path = FLAGS.chatglm_path
-    peft_path = "/home/xiezizhe/wuzixun/LLM/ChatGLM-Tuning" + FLAGS.peft_path
+    peft_path = "/home/xiezizhe/wuzixun/LLM/ChatGLM-Tuning/" + FLAGS.peft_path
 
     tokenizer = AutoTokenizer.from_pretrained(chatglm_path, trust_remote_code=True)
     model = AutoModel.from_pretrained(chatglm_path, trust_remote_code=True, device_map='auto').half()

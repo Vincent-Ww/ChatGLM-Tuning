@@ -36,7 +36,7 @@ if __name__ == "__main__":
             break
 
         start = time.time()
-        answer, _ = chatglm_inference(model, tokenizer, prompt)
+        answer = chatglm_inference(model, tokenizer, prompt)
         end = time.time()
 
         print("================")

@@ -36,7 +36,7 @@ if __name__ == "__main__":
         prompt = []
         while True:
             aLine = sys.stdin.readline()
-            if aLine == "endendend":
+            if "endendend" in aLine:
                 break
             prompt.append(aLine)
         prompt = "\n".join(prompt)

@@ -125,6 +125,7 @@ if __name__ == "__main__":
                     return ""
 
 
+
             sheet.cell(nrow, 5).value = is_first_equal(ft_label, llm_answer)
             sheet.cell(nrow, 6).value = is_second_equal(ft_label, llm_answer)
 
